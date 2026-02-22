@@ -2,7 +2,6 @@
 #include <unistd.h> // For sleep
 #include <stdint.h>
 #include <time.h>
-#include <sys/time.h>
 #include <ncurses.h> // For TUI framework ncurses
 
 /*
