@@ -14,7 +14,6 @@
 
 typedef struct gameStateTag {
   int running;
-  int testCount;
   int keyPressed;
 } gameState;
 

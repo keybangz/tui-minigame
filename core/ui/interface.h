@@ -2,8 +2,25 @@
 #define INTERFACE_H
 
 #include "../frame/frame.h"
-#include <ncurses.h>
+#include "levels/mainmenu.h"
 
-void draw_ui(void);
+typedef struct terminalWindowTag {
+  int x;
+  int y;
+} terminalWindow;
+
+typedef struct gameInterfaceTag {
+  int level;
+  int type;
+  int debug; // 0 is off, 1 is on
+} gameInterface;
+
+// Implement interface functionality
+void startDraw(gameInterface *);
+void renderUI(gameInterface *, terminalWindow *);
+
+// Debug interface functions
+void drawDebugWindow(int, int);
+int debugThinkCount();
 
 #endif

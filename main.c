@@ -32,13 +32,14 @@ int main(int argc, char *argv[]) {
   }
 
   gameState state;
-  state.testCount = 0;
+  gameInterface interface;
 
-  init();    // Init
-  draw_ui(); // Draw the ui written.
-  state.running = 1;
+  init(); // Initialize ncurses
 
-  setupFrame(&state);
+  startDraw(&interface); // Initialize interface state
+  state.running = 1;     // Toggle game state
+
+  setupFrame(&state, &interface); // Setup frame rendering
 
   cleanup(); // Cleanup memory from ncurses
   return 0;

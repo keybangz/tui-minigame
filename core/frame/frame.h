@@ -5,9 +5,10 @@
 #include <time.h>
 
 typedef struct gameStateTag gameState;
+typedef struct gameInterfaceTag gameInterface;
 
 void refreshFrame(WINDOW *);
-void setupFrame(gameState *);
+void setupFrame(gameState *, gameInterface *);
 struct timespec timespec_sub(struct timespec, struct timespec);
 
 #endif

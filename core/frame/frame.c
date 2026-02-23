@@ -1,7 +1,8 @@
 #include "frame.h"
 #include "../game.h"
+#include "../ui/interface.h"
 
-void setupFrame(gameState *state) {
+void setupFrame(gameState *state, gameInterface *interface) {
   if (!state)
     return;
 
@@ -10,18 +11,23 @@ void setupFrame(gameState *state) {
   struct timespec remaining_time;
   struct timespec target_time = {0, 16666666};
 
+  terminalWindow terminal;
+
   while (state->running) {
     timeout(0);
     state->keyPressed = getch();
 
     struct timespec start_time;
     clock_gettime(CLOCK_REALTIME, &start_time);
+    // --- START OF FRAME ABOVE ---
 
+    renderUI(interface, &terminal);
     refreshFrame(NULL);
 
-    mvprintw(6, 2, "Count: %d", state->testCount);
-    state->testCount++;
+    // mvprintw(6, 2, "Count: %d", state->testCount);
+    // state->testCount++;
 
+    // --- END OF FRAME BELOW ---
     struct timespec end_time;
     clock_gettime(CLOCK_REALTIME, &end_time);
 

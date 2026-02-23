@@ -1,4 +1,5 @@
 #include "interface.h"
+#include <ncurses.h>
 
 /*
  * I will need to scaffold this section out from defining what parts of the UI
@@ -8,40 +9,54 @@
  * mechanical parts of the game.
  */
 
-void draw_ui(void) {
-  clear(); // Clear virtual screen
+void startDraw(gameInterface *gameInterface) {
+  if (!gameInterface) {
+    fprintf(stderr, "gameInterfaces failed to initialize! exiting...\n");
+    return;
+  }
 
-  // 0,0 is top left corner of screen
-  mvprintw(0, 0, "Test print on interface environment");
+  clear();
 
-  // attron - Turn attribute on
-  attron(COLOR_PAIR(1) |
-         A_BOLD); // Turn the pair defined in init() and make text bold.
-  mvprintw(2, 2, "Test yellow bold text on black bg");
-  attroff(COLOR_PAIR(1) | A_BOLD); // attroff, turn selected attributes off.
+  gameInterface->level = 0;
+  gameInterface->type = 0;
+  gameInterface->debug = 1;
+}
 
-  mvprintw(4, 2, "Standard text again.");
+// This function needs to be refactored to take into consideration interface
+// type & level too ensure we are rendering the correct things on the screen.
+void renderUI(gameInterface *gameInterface, terminalWindow *terminal) {
+  if (!gameInterface)
+    return;
 
-  refreshFrame(NULL); // Wrapper function for refresh() & wrefresh()
+  terminal->x = getmaxx(stdscr);
+  terminal->y = getmaxy(stdscr);
 
-  // Refactor later.
-  int height = 10, width = 60;
-  int start_y = 6, start_x = 5;
+  if (gameInterface->debug)
+    drawDebugWindow(terminal->y, terminal->x);
 
-  // newwin creates a window inside the virtual screen
+  if (gameInterface->type == 0) {
+    mainMenu(gameInterface);
+  }
+}
+
+void drawDebugWindow(int t_height, int t_width) {
+  int height = 9, width = 24;
+  int start_y = 40, start_x = 1;
+
   WINDOW *info_win = newwin(height, width, start_y, start_x);
 
-  // Draw border around the window
   box(info_win, 0, 0);
-
-  // Attribute for window color only
   wbkgd(info_win, COLOR_PAIR(3));
 
-  // mvwprintw is the window specific function of mvprintw
-  // Coordinates are relative to top left of new window, just like virtual
-  // screen.
-  mvwprintw(info_win, 1, 1, "New window test.");
+  int count = debugThinkCount();
+  mvwprintw(info_win, 1, 1, "Count: %d", count);
+  mvwprintw(info_win, 2, 1, "t_height: %d", t_height);
+  mvwprintw(info_win, 4, 1, "t_width: %d", t_width);
 
-  // Modular refreshment of window only.
   refreshFrame(info_win);
+}
+
+int debugThinkCount() {
+  static int count = 0;
+  return count++;
 }

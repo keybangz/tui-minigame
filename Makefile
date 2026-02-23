@@ -14,8 +14,8 @@ TARGET   = tui_minigame
 
 $(shell mkdir -p build)
 
-$(TARGET): main.o frame.o interface.o
-	$(CC) $(CFLAGS) -o build/$(TARGET) build/main.o build/frame.o build/interface.o $(LDFLAGS)
+$(TARGET): main.o frame.o interface.o levels.o
+	$(CC) $(CFLAGS) -o build/$(TARGET) build/main.o build/frame.o build/interface.o build/levels.o $(LDFLAGS)
 
 main.o: main.c
 	$(CC) $(CFLAGS) -c main.c -o build/main.o
@@ -23,8 +23,11 @@ main.o: main.c
 frame.o: core/frame/frame.h core/frame/frame.c
 	$(CC) $(CFLAGS) -c core/frame/frame.c -o build/frame.o
 
-interface.o: core/ui/interface.c core/ui/interface.h
+interface.o: core/ui/interface.h core/ui/interface.c
 	$(CC) $(CFLAGS) -c core/ui/interface.c -o build/interface.o
+
+levels.o: core/ui/levels/mainmenu.h core/ui/levels/mainmenu.c
+	$(CC) $(CFLAGS) -c core/ui/levels/mainmenu.c -o build/levels.o
 
 .PHONY: all clean
 
