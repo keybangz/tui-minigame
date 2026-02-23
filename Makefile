@@ -12,14 +12,19 @@ CFLAGS   = -Wall -Wextra -std=c11 $(shell pkg-config --cflags $(PKGS))
 LDFLAGS  := $(shell pkg-config --libs $(PKGS))
 TARGET   = tui_minigame
 
-$(TARGET): main.o frame.o
-	$(CC) $(CFLAGS) $(LDFLAGS) -o build/$(TARGET) build/main.o build/frame.o -lncurses
+$(shell mkdir -p build)
+
+$(TARGET): main.o frame.o interface.o
+	$(CC) $(CFLAGS) -o build/$(TARGET) build/main.o build/frame.o build/interface.o $(LDFLAGS)
 
 main.o: main.c
 	$(CC) $(CFLAGS) -c main.c -o build/main.o
 
-frame.o: core/frame.c core/frame.h
-	$(CC) $(CFLAGS) -c core/frame.c -o build/frame.o
+frame.o: core/frame/frame.h core/frame/frame.c
+	$(CC) $(CFLAGS) -c core/frame/frame.c -o build/frame.o
+
+interface.o: core/ui/interface.c core/ui/interface.h
+	$(CC) $(CFLAGS) -c core/ui/interface.c -o build/interface.o
 
 .PHONY: all clean
 
