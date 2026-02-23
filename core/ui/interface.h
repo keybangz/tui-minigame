@@ -20,7 +20,6 @@ void startDraw(gameInterface *);
 void renderUI(gameInterface *, terminalWindow *);
 
 // Debug interface functions
-void drawDebugWindow(int, int);
-int debugThinkCount();
+void drawDebugWindow(terminalWindow *);
 
 #endif

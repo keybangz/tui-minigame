@@ -8,7 +8,11 @@
  * text updates and what needs to be returned too and from the UI for specific
  * mechanical parts of the game.
  */
-
+// TODO: Refactor startDraw to initialize concepts of different windows,
+// (creation, destruction, clear, etc) At the moment, renderUI is looping within
+// every frame, which unnecessarily allocates more memory than it should, and
+// also creates undesired effects when windows update to the size of the virtual
+// screen.
 void startDraw(gameInterface *gameInterface) {
   if (!gameInterface) {
     fprintf(stderr, "gameInterfaces failed to initialize! exiting...\n");
@@ -31,32 +35,30 @@ void renderUI(gameInterface *gameInterface, terminalWindow *terminal) {
   terminal->x = getmaxx(stdscr);
   terminal->y = getmaxy(stdscr);
 
-  if (gameInterface->debug)
-    drawDebugWindow(terminal->y, terminal->x);
+  if (gameInterface->debug) {
+    drawDebugWindow(terminal);
+  }
 
   if (gameInterface->type == 0) {
     mainMenu(gameInterface);
   }
 }
 
-void drawDebugWindow(int t_height, int t_width) {
-  int height = 9, width = 24;
-  int start_y = 40, start_x = 1;
+void drawDebugWindow(terminalWindow *terminal) {
+  int height = 10, width = 30;
+  int start_y = (terminal->y / 10), start_x = (terminal->x / 10);
 
   WINDOW *info_win = newwin(height, width, start_y, start_x);
 
   box(info_win, 0, 0);
   wbkgd(info_win, COLOR_PAIR(3));
 
-  int count = debugThinkCount();
-  mvwprintw(info_win, 1, 1, "Count: %d", count);
-  mvwprintw(info_win, 2, 1, "t_height: %d", t_height);
-  mvwprintw(info_win, 4, 1, "t_width: %d", t_width);
-
-  refreshFrame(info_win);
-}
-
-int debugThinkCount() {
   static int count = 0;
-  return count++;
+  mvwprintw(info_win, 1, 1, "Count: %d", count);
+  mvwprintw(info_win, 2, 1, "t_height: %d", terminal->y);
+  mvwprintw(info_win, 4, 1, "t_width: %d", terminal->x);
+  count++;
+
+  erase();
+  refreshFrame(info_win);
 }
