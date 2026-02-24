@@ -19,19 +19,25 @@ void drawWindow(gameInterface *interface, gameWindow *window, char *name,
                 int height, int width) {
   window->height = height;
   window->width = width;
-  window->startX = 0;
-  window->startY = 0;
+
+  window->startY =
+      (interface->screen->x > height) ? (interface->screen->x - -height) : 0;
+  window->startX =
+      (interface->screen->y > width) ? (interface->screen->y - -width) : 0;
+
+  // window->startY = 0;
+  // window->startX = 0;
 
   strcpy(window->name, name);
 
   box(window->window, 0, 0);
   wbkgd(window->window, COLOR_PAIR(3));
 
-  window->g_winContent[0] = addWindowContent(window, window->name, 0, 0);
-  window->g_winContent[1] = addWindowContent(window, "TEST CONTENT", 1, 0);
+  window->g_winContent[0] = addWindowContent(window, window->name, 1, 1);
+  window->g_winContent[1] = addWindowContent(window, "TEST CONTENT", 2, 1);
 
-  mvwin(window->window, window->height, window->width);
-  wresize(window->window, window->startY, window->startX);
+  mvwin(window->window, window->startY, window->startX);
+  wresize(window->window, window->height, window->width);
 
   wrefresh(window->window);
   wclear(window->window);

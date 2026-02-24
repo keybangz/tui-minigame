@@ -34,21 +34,16 @@ void initAllWindows(gameInterface *game) {
   }
 }
 
-gameWindow *setupWindow(gameInterface *game, char *title, int height, int width,
-                        int offsetPosY, int offsetPosX, int lifetime,
+gameWindow *setupWindow(gameInterface *game, char *title, int lifetime,
                         gameWindowContent **content) {
   gameWindow *g_win = (gameWindow *)malloc(sizeof(gameWindow));
 
-  int maxY = game->screen->x;
-  int maxX = game->screen->y;
+  g_win->width = 0;
+  g_win->height = 0;
+  g_win->startY = 0;
+  g_win->startX = 0;
 
-  g_win->width = 10;
-  g_win->height = 10;
-  g_win->startY =
-      (maxY > height) ? (maxY - height) - offsetPosY : 0 - offsetPosY;
-  g_win->startX = (maxX > width) ? (maxX - width) - offsetPosX : 0 - offsetPosX;
-
-  g_win->window = addWindow(game, height, width, g_win->startY, g_win->startX);
+  g_win->window = addWindow(game, 0, 0, 0, 0);
 
   strcpy(g_win->name, title);
   g_win->lifetime = lifetime;
@@ -61,8 +56,7 @@ gameWindow *setupWindow(gameInterface *game, char *title, int height, int width,
 }
 
 gameWindow *initGameWindow(gameInterface *interface, gameWindow *window) {
-  window = setupWindow(interface, window->name, window->height, window->width,
-                       window->startY, window->startX, window->lifetime,
+  window = setupWindow(interface, window->name, window->lifetime,
                        window->g_winContent);
 
   return window;

@@ -38,7 +38,7 @@ void renderUI(gameInterface *gameInterface) {
 
   if (gameInterface->type == MAINMENU) {
     drawWindow(gameInterface, gameInterface->gameWindows[MAINMENU], "Main Menu",
-               10, 50);
+               10, 40);
   }
 
   if (gameInterface->debug)
