@@ -6,6 +6,7 @@
 
 typedef struct gameStateTag gameState;
 typedef struct gameInterfaceTag gameInterface;
+typedef struct gameWindowTag gameWindow;
 
 void refreshFrame(WINDOW *);
 void setupFrame(gameState *, gameInterface *);

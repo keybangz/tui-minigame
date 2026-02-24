@@ -9,17 +9,11 @@ typedef struct terminalWindowTag {
   int y;
 } terminalWindow;
 
-typedef struct gameInterfaceTag {
-  int level;
-  int type;
-  int debug; // 0 is off, 1 is on
-} gameInterface;
-
 // Implement interface functionality
 void startDraw(gameInterface *);
-void renderUI(gameInterface *, terminalWindow *);
+void renderUI(gameInterface *);
 
 // Debug interface functions
-void drawDebugWindow(terminalWindow *);
+void drawDebugWindow(gameWindow *window);
 
 #endif

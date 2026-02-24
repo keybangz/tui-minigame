@@ -17,4 +17,29 @@ typedef struct gameStateTag {
   int keyPressed;
 } gameState;
 
+typedef struct gameWindowContentTag {
+  int contentPosY;
+  int contentPosX;
+  char *content;
+} gameWindowContent;
+
+typedef struct gameWindowTag {
+  char name[128];
+  WINDOW *window;
+  int height;
+  int width;
+  int startY;
+  int startX;
+  int lifetime;
+} gameWindow;
+
+typedef struct gameInterfaceTag {
+  int level;
+  int type;
+  int debug; // 0 is off, 1 is on
+  int windowCount;
+  gameWindow **gameWindows;
+  gameWindowContent **g_winContent;
+} gameInterface;
+
 #endif

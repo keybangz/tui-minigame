@@ -34,11 +34,13 @@ int main(int argc, char *argv[]) {
   gameState state;
   gameInterface interface;
 
+  interface.windowCount = 0;
+
   init(); // Initialize ncurses
 
   startDraw(&interface); // Initialize interface state
-  state.running = 1;     // Toggle game state
 
+  state.running = 1;              // Toggle game state
   setupFrame(&state, &interface); // Setup frame rendering
 
   cleanup(); // Cleanup memory from ncurses

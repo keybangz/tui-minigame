@@ -1,5 +1,4 @@
 #include "mainmenu.h"
-#include "../interface.h"
 
 void mainMenu(gameInterface *gameInterface) {
   if (!gameInterface)

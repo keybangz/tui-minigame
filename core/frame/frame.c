@@ -11,21 +11,12 @@ void setupFrame(gameState *state, gameInterface *interface) {
   struct timespec remaining_time;
   struct timespec target_time = {0, 16666666};
 
-  terminalWindow terminal;
-
   while (state->running) {
-    timeout(0);
-    state->keyPressed = getch();
-
     struct timespec start_time;
     clock_gettime(CLOCK_REALTIME, &start_time);
     // --- START OF FRAME ABOVE ---
 
-    renderUI(interface, &terminal);
-    refreshFrame(NULL);
-
-    // mvprintw(6, 2, "Count: %d", state->testCount);
-    // state->testCount++;
+    renderUI(interface);
 
     // --- END OF FRAME BELOW ---
     struct timespec end_time;
@@ -35,6 +26,9 @@ void setupFrame(gameState *state, gameInterface *interface) {
     remaining_time = timespec_sub(frame_time, target_time);
 
     nanosleep(&remaining_time, NULL);
+
+    timeout(0);
+    state->keyPressed = getch();
 
     if (!state->running || state->keyPressed == KEY_BACKSPACE)
       break;
