@@ -8,15 +8,16 @@ typedef struct gameWindowTag gameWindow;
 typedef struct gameInterfaceTag gameInterface;
 typedef struct gameWindowContentTag gameWindowContent;
 
-void initAllWindows(gameInterface *game);
+void initAllWindows(gameInterface *);
 
-gameWindow *initGameWindow(gameInterface *game, char *title, int height,
-                           int width, int offsetPosY, int offsetPosX,
-                           int lifetime);
+gameWindow *initGameWindow(gameInterface *, char *, int, int, int, int, int,
+                           gameWindowContent **);
 
-WINDOW *addWindow(gameInterface *game, int height, int width, int startPosY,
-                  int startPosX);
+WINDOW *addWindow(gameInterface *, int, int, int, int);
 
-void deleteWindow(WINDOW *window);
+void deleteGameWindowContent(gameWindowContent *);
+void deleteGameWindow(gameWindow *);
+
+void deleteWindow(WINDOW *);
 
 #endif

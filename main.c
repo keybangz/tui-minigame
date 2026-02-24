@@ -1,4 +1,5 @@
 #include "core/game.h"
+#include "core/ui/initWindows.h"
 
 #include <ncurses.h> // For TUI framework ncurses
 #include <stdint.h>
@@ -23,7 +24,7 @@
 
 // Memory management
 void init(void);
-void cleanup(void);
+void cleanup(gameInterface *);
 
 int main(int argc, char *argv[]) {
   if (argc > 1) {
@@ -33,8 +34,12 @@ int main(int argc, char *argv[]) {
 
   gameState state;
   gameInterface interface;
+  gameVirtualScreen screen;
 
   interface.windowCount = 0;
+  screen.x = 0;
+  screen.y = 0;
+  interface.screen = &screen;
 
   init(); // Initialize ncurses
 
@@ -43,7 +48,7 @@ int main(int argc, char *argv[]) {
   state.running = 1;              // Toggle game state
   setupFrame(&state, &interface); // Setup frame rendering
 
-  cleanup(); // Cleanup memory from ncurses
+  cleanup(&interface); // Cleanup memory from ncurses
   return 0;
 }
 
@@ -74,4 +79,9 @@ void init(void) {
   init_pair(3, COLOR_WHITE, COLOR_BLUE);
 }
 
-void cleanup(void) { endwin(); }
+void cleanup(gameInterface *game) {
+  for (int i = 0; i < 1; i++)
+    deleteGameWindow(game->gameWindows[i]);
+
+  endwin();
+}

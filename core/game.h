@@ -12,6 +12,11 @@
 
 // TODO: Refactor globals?
 
+typedef struct gameVirtualScreenTag {
+  int y;
+  int x;
+} gameVirtualScreen;
+
 typedef struct gameStateTag {
   int running;
   int keyPressed;
@@ -20,7 +25,7 @@ typedef struct gameStateTag {
 typedef struct gameWindowContentTag {
   int contentPosY;
   int contentPosX;
-  char *content;
+  char content[128];
 } gameWindowContent;
 
 typedef struct gameWindowTag {
@@ -31,6 +36,7 @@ typedef struct gameWindowTag {
   int startY;
   int startX;
   int lifetime;
+  gameWindowContent **g_winContent;
 } gameWindow;
 
 typedef struct gameInterfaceTag {
@@ -38,8 +44,9 @@ typedef struct gameInterfaceTag {
   int type;
   int debug; // 0 is off, 1 is on
   int windowCount;
+  gameVirtualScreen *screen;
   gameWindow **gameWindows;
-  gameWindowContent **g_winContent;
+
 } gameInterface;
 
 #endif

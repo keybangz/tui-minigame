@@ -1,5 +1,6 @@
 #include "interface.h"
 #include "../game.h"
+#include "debugWindow.h"
 #include "initWindows.h"
 #include <ncurses.h>
 #include <stdio.h>
@@ -36,36 +37,18 @@ void renderUI(gameInterface *gameInterface) {
   if (!gameInterface)
     return;
 
-  if (gameInterface->type == 0) {
-    mainMenu(gameInterface);
-  }
+  gameInterface->screen->x = getmaxx(stdscr);
+  gameInterface->screen->y = getmaxy(stdscr);
+
+  // if (gameInterface->type == 0) {
+  //   mainMenu(gameInterface);
+  // }
+
+  if (gameInterface->debug)
+    drawDebugWindow(gameInterface, gameInterface->gameWindows[0]);
 
   refreshFrame(NULL); // Refresh virtual screen to show drawn items.
 
   clear(); // Clear virtual screen at end of frame to ensure old frames drawn do
            // not show.
-}
-
-void drawDebugWindow(gameWindow *window) {
-  int maxY = getmaxy(stdscr);
-  int maxX = getmaxx(stdscr);
-  window->startY = (maxY > window->height) ? (maxY - window->height) : 0;
-  window->startX = (maxX > window->width) ? (maxX - window->width) : 0;
-
-  mvwin(window->window, window->startY, window->startX);
-  wresize(window->window, window->height, window->width);
-
-  box(window->window, 0, 0);
-  wbkgd(window->window, COLOR_PAIR(3));
-
-  static int count = 0;
-  mvwprintw(window->window, 0, 0, "%s", window->name);
-  mvwprintw(window->window, 1, 1, "Count: %d", count);
-  mvwprintw(window->window, 2, 1, "posX: %d", window->startY);
-  mvwprintw(window->window, 3, 1, "posY: %d", window->startX);
-  count++;
-
-  refreshFrame(window->window);
-
-  wclear(window->window);
 }
