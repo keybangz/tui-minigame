@@ -9,6 +9,7 @@ typedef struct gameInterfaceTag gameInterface;
 typedef struct gameWindowTag gameWindow;
 
 gameWindowContent *addWindowContent(gameWindow *, char *, int, int);
+void drawWindow(gameInterface *, gameWindow *, char *, int, int);
 void drawDebugWindow(gameInterface *, gameWindow *);
 
 #endif

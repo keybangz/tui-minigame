@@ -30,8 +30,10 @@ void setupFrame(gameState *state, gameInterface *interface) {
     timeout(0);
     state->keyPressed = getch();
 
-    if (!state->running || state->keyPressed == KEY_BACKSPACE)
+    if (!state->running || state->keyPressed == KEY_BACKSPACE) {
+      state->running = 0;
       break;
+    }
   }
 }
 

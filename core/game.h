@@ -12,6 +12,19 @@
 
 // TODO: Refactor globals?
 
+typedef enum interfaceWindowsTag {
+  MAINMENU = 0,
+  GAME_LEVEL = 1,
+  OPTIONS = 2,
+  DEBUG = 3,
+} interfaceWindows;
+
+typedef enum interfaceGameWindowsTag {
+  LEVEL01,
+  LEVEL02,
+  LEVEL03,
+} interfaceGameWindows;
+
 typedef struct gameVirtualScreenTag {
   int y;
   int x;
@@ -44,6 +57,7 @@ typedef struct gameInterfaceTag {
   int type;
   int debug; // 0 is off, 1 is on
   int windowCount;
+  interfaceWindows interfaceType;
   gameVirtualScreen *screen;
   gameWindow **gameWindows;
 

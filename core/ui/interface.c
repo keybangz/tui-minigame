@@ -13,11 +13,7 @@
  * text updates and what needs to be returned too and from the UI for specific
  * mechanical parts of the game.
  */
-// TODO: Refactor startDraw to initialize concepts of different windows,
-// (creation, destruction, clear, etc) At the moment, renderUI is looping within
-// every frame, which unnecessarily allocates more memory than it should, and
-// also creates undesired effects when windows update to the size of the virtual
-// screen.
+
 void startDraw(gameInterface *gameInterface) {
   if (!gameInterface) {
     fprintf(stderr, "gameInterfaces failed to initialize! exiting...\n");
@@ -40,12 +36,13 @@ void renderUI(gameInterface *gameInterface) {
   gameInterface->screen->x = getmaxx(stdscr);
   gameInterface->screen->y = getmaxy(stdscr);
 
-  // if (gameInterface->type == 0) {
-  //   mainMenu(gameInterface);
-  // }
+  if (gameInterface->type == MAINMENU) {
+    drawWindow(gameInterface, gameInterface->gameWindows[MAINMENU], "Main Menu",
+               10, 50);
+  }
 
   if (gameInterface->debug)
-    drawDebugWindow(gameInterface, gameInterface->gameWindows[0]);
+    drawDebugWindow(gameInterface, gameInterface->gameWindows[DEBUG]);
 
   refreshFrame(NULL); // Refresh virtual screen to show drawn items.
 

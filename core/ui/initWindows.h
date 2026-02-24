@@ -10,13 +10,12 @@ typedef struct gameWindowContentTag gameWindowContent;
 
 void initAllWindows(gameInterface *);
 
-gameWindow *initGameWindow(gameInterface *, char *, int, int, int, int, int,
-                           gameWindowContent **);
+gameWindow *initGameWindow(gameInterface *, gameWindow *);
 
 WINDOW *addWindow(gameInterface *, int, int, int, int);
 
 void deleteGameWindowContent(gameWindowContent *);
-void deleteGameWindow(gameWindow *);
+void deleteGameWindow(gameWindow **);
 
 void deleteWindow(WINDOW *);
 

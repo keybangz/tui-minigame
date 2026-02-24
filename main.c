@@ -80,8 +80,7 @@ void init(void) {
 }
 
 void cleanup(gameInterface *game) {
-  for (int i = 0; i < 1; i++)
-    deleteGameWindow(game->gameWindows[i]);
+  deleteGameWindow(game->gameWindows);
 
   endwin();
 }

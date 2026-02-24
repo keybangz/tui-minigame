@@ -3,8 +3,7 @@
 
 gameWindowContent *addWindowContent(gameWindow *window, char *content, int posY,
                                     int posX) {
-  gameWindowContent *g_wincon =
-      (gameWindowContent *)malloc(sizeof(gameWindowContent));
+  gameWindowContent *g_wincon = *window->g_winContent;
 
   strcpy(g_wincon->content, content);
   g_wincon->contentPosY = posY;
@@ -14,6 +13,28 @@ gameWindowContent *addWindowContent(gameWindow *window, char *content, int posY,
             g_wincon->content);
 
   return g_wincon;
+}
+
+void drawWindow(gameInterface *interface, gameWindow *window, char *name,
+                int height, int width) {
+  window->height = height;
+  window->width = width;
+  window->startX = 0;
+  window->startY = 0;
+
+  strcpy(window->name, name);
+
+  box(window->window, 0, 0);
+  wbkgd(window->window, COLOR_PAIR(3));
+
+  window->g_winContent[0] = addWindowContent(window, window->name, 0, 0);
+  window->g_winContent[1] = addWindowContent(window, "TEST CONTENT", 1, 0);
+
+  mvwin(window->window, window->height, window->width);
+  wresize(window->window, window->startY, window->startX);
+
+  wrefresh(window->window);
+  wclear(window->window);
 }
 
 void drawDebugWindow(gameInterface *interface, gameWindow *window) {
